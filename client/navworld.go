@@ -208,8 +208,8 @@ func (w *NavWorld) LoadCurrentMesh(src string) {
 	w.pp = 1000
 	w.sf = 0.5 / w.pp
 	w.ScaleFactor = 10 / w.pp
-	w.xx = 40
-	w.yy = 40
+	w.xx = 60
+	w.yy = 60
 	w.Px = w.ScaleFactor * w.xx * w.pp
 	w.Py = w.ScaleFactor * w.yy * w.pp
 
@@ -220,28 +220,8 @@ func (w *NavWorld) LoadCurrentMesh(src string) {
 	if err := json.NewDecoder(f).Decode(&cList); err != nil {
 		log.Fatal(err)
 	}
+	resetList()
 
-	var nList CurList
-	for i, vertex := range cList.Vertices {
-		fmt.Println(i, "-----", vertex)
-		none := true
-		for _, cv := range nList.Vertices {
-			if vertex == cv {
-				none = false
-			}
-		}
-		if none {
-			nList.Vertices = append(nList.Vertices, vertex)
-			for _, v := range cList.Indices {
-				if i {
-
-				}
-				fmt.Println("v = ", v)
-			}
-		}
-	}
-	//fmt.Println("-----------------", nList.Vertices)
-	fmt.Println("++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 	for _, vertex := range cList.Vertices {
 		list.Vertices = append(list.Vertices, navmesh.Point3{
 			X: vertex.X * w.pp,
@@ -263,8 +243,8 @@ func (w *NavWorld) LoadCurrentMesh(src string) {
 	w.roads = append(w.roads,
 		road{
 			start: navmesh.Point3{
-				X: 4945.112,
-				Y: -5610.972,
+				X: 8880.377,
+				Y: -6765.554,
 				Z: 0,
 			},
 			end: navmesh.Point3{
@@ -274,6 +254,41 @@ func (w *NavWorld) LoadCurrentMesh(src string) {
 			},
 		},
 	)
+}
+
+func resetList() {
+	idx2V := make([]navmesh.Point3, len(cList.Indices))
+	for i, idx := range cList.Indices {
+		idx2V[i] = cList.Vertices[idx]
+	}
+	mp := make(map[navmesh.Point3]int)
+	var nVert []navmesh.Point3
+	for i, vertex := range cList.Vertices {
+		_, ok := mp[vertex]
+		if !ok {
+			mp[vertex] = i
+			nVert = append(nVert, vertex)
+		}
+	}
+	np := make(map[navmesh.Point3]int32)
+	for i, vertex := range nVert {
+		_, ok := np[vertex]
+		if !ok {
+			np[vertex] = int32(i)
+		}
+	}
+	nIdxs := make([]int32, len(cList.Indices))
+	for i, point3 := range idx2V {
+		no, ok := np[point3]
+		if !ok {
+			fmt.Println("asdfadfsasfsafd")
+			break
+		}
+		nIdxs[i] = no
+	}
+
+	cList.Vertices = nVert
+	cList.Indices = nIdxs
 }
 
 func route(srcId, dstId int32, src, dest navmesh.Point3) *navmesh.Path {
