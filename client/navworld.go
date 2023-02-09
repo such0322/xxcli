@@ -25,13 +25,13 @@ var dijkstra navmesh.Dijkstra
 
 type NavWorld struct {
 	Game        *Game
-	sf          float32
-	ScaleFactor float32
-	xx          float32
-	yy          float32
-	Px          float32
-	Py          float32
-	pp          float32
+	sf          float64
+	ScaleFactor float64
+	xx          float64
+	yy          float64
+	Px          float64
+	Py          float64
+	pp          float64
 
 	Solids []*resolv.ConvexPolygon
 	roads  []road
@@ -106,7 +106,7 @@ func (w *NavWorld) Update() {
 
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
-		posX, PosY := (float32(x)-w.Px)/w.ScaleFactor, (float32(y)-w.Py)/w.ScaleFactor
+		posX, PosY := (float64(x)-w.Px)/w.ScaleFactor, (float64(y)-w.Py)/w.ScaleFactor
 		posId := getTriangleId(navmesh.Point3{
 			X: posX,
 			Y: PosY,
@@ -141,7 +141,7 @@ func (w *NavWorld) Draw(screen *ebiten.Image) {
 		x := (solid.Points[0].X() + solid.Points[1].X() + solid.Points[2].X()) / 3
 		y := (solid.Points[0].Y() + solid.Points[1].Y() + solid.Points[2].Y()) / 3
 
-		np := navmesh.Point3{X: (float32(x) - w.Px) / w.ScaleFactor, Y: (float32(y) - w.Py) / w.ScaleFactor}
+		np := navmesh.Point3{X: (x - w.Px) / w.ScaleFactor, Y: (y - w.Py) / w.ScaleFactor}
 		id := getTriangleId(np)
 		//fmt.Println("sanjiao dian id = ", id, np)
 		w.Game.DrawText(screen, int(x), int(y),
@@ -156,10 +156,10 @@ func (w *NavWorld) Draw(screen *ebiten.Image) {
 			cline := w.path.Line[i]
 			nline := w.path.Line[i+1]
 			ebitenutil.DrawLine(screen,
-				float64(w.ScaleFactor*cline.X+w.Px),
-				float64(w.ScaleFactor*cline.Y+w.Py),
-				float64(w.ScaleFactor*nline.X+w.Px),
-				float64(w.ScaleFactor*nline.Y+w.Py),
+				w.ScaleFactor*cline.X+w.Px,
+				w.ScaleFactor*cline.Y+w.Py,
+				w.ScaleFactor*nline.X+w.Px,
+				w.ScaleFactor*nline.Y+w.Py,
 				controllingColor)
 		}
 	}
@@ -316,7 +316,7 @@ func route(srcId, dstId int32, src, dest navmesh.Point3) *navmesh.Path {
 	fmt.Println("pathTriangle =", pathTriangle)
 	nm := navmesh.NavMesh{}
 	triList := navmesh.TriangleList{Vertices: vertices, Triangles: pathTriangle}
-	path, err := nm.Route(triList, &src, &dest)
+	path, err := nm.Route(triList, src, dest)
 	if err != nil {
 		fmt.Println(err)
 		return nil
@@ -325,7 +325,7 @@ func route(srcId, dstId int32, src, dest navmesh.Point3) *navmesh.Path {
 	return path
 }
 
-func sign(p1, p2, p3 navmesh.Point3) float32 {
+func sign(p1, p2, p3 navmesh.Point3) float64 {
 	return (p1.X-p3.X)*(p2.Y-p3.Y) - (p2.X-p3.X)*(p1.Y-p3.Y)
 }
 

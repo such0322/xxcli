@@ -107,7 +107,7 @@ func (g *Game) tryConnect(addr string) error {
 func (g *Game) afterConnect() {
 	time.Sleep(1 * time.Second)
 	agent.request(consts.HandlerGateLogin, &protocol.MsgGateLoginReq{
-		Account: "moz25",
+		SdkToken: "moz25",
 	})
 	time.Sleep(time.Millisecond * 100)
 	Request(consts.HandlerPublicSelectRole, &protocol.MsgPublicSelectRoleReq{})
