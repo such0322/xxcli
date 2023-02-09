@@ -5,11 +5,12 @@ go 1.17
 require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
-	github.com/hajimehoshi/ebiten/v2 v2.4.5
+	github.com/hajimehoshi/ebiten/v2 v2.4.12
+	github.com/kvartborg/vector v0.1.2
 	github.com/sirupsen/logrus v1.8.1
-	github.com/solarlune/resolv v0.5.1
+	github.com/solarlune/resolv v0.6.0
 	github.com/topfreegames/pitaya/v2 v2.2.0
-	golang.org/x/image v0.0.0-20220722155232-062f8c9fd539
+	golang.org/x/image v0.1.0
 	xiuxian v0.0.0
 )
 
@@ -35,7 +36,6 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jezek/xgb v1.0.1 // indirect
 	github.com/jhump/protoreflect v1.8.2 // indirect
-	github.com/kvartborg/vector v0.0.0-20200419093813-2cba0cabb4f0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
@@ -65,9 +65,9 @@ require (
 	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
 	golang.org/x/exp v0.0.0-20200224162631-6cc2880d07d6 // indirect
 	golang.org/x/mobile v0.0.0-20220722155234-aaac322e2105 // indirect
-	golang.org/x/net v0.0.0-20220722155237-a158d28d115b // indirect
-	golang.org/x/sys v0.0.0-20220818161305-2296e01440c6 // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/net v0.2.0 // indirect
+	golang.org/x/sys v0.2.0 // indirect
+	golang.org/x/text v0.4.0 // indirect
 	google.golang.org/genproto v0.0.0-20211118181313-81c1377c94b1 // indirect
 	google.golang.org/grpc v1.41.0 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect

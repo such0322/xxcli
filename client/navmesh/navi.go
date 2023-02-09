@@ -28,7 +28,7 @@ func (nm *NavMesh) Route(list TriangleList, start, end *Point3) (*Path, error) {
 	r := Path{}
 	// 计算临边
 	fmt.Println("Vertices = ", list.Vertices)
-	border := nm.createBorder(list.Vertices, list.Triangles)
+	border := nm.createBorder(list.Triangles)
 	fmt.Println("border = ", border)
 	// 目标点
 	vertices := append(list.Vertices, *end)
@@ -90,7 +90,7 @@ func (nm *NavMesh) Route(list TriangleList, start, end *Point3) (*Path, error) {
 	return &r, nil
 }
 
-func (nm *NavMesh) createBorder(vertices []Point3, list [][3]int32) []int32 {
+func (nm *NavMesh) createBorder(list [][3]int32) []int32 {
 	var border []int32
 	for k := 0; k < len(list)-1; k++ {
 		for _, i := range list[k] {

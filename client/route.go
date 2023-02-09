@@ -3,20 +3,13 @@ package client
 import (
 	"encoding/json"
 	"fmt"
+	"xiuxian/common/consts"
 	"xiuxian/protocol"
 )
 
-const (
-	GateLogin        = "gate.entryhandler.login"
-	PublicSelectRole = "public.playerhandler.selectrole"
-	GameStartGame    = "game.playerhandler.startgame"
-	WorldMoveToNtf   = "world.playerhandler.moveto"
-	WorldGetState    = "world.playerhandler.getstate"
-)
-
 var FuncMap = map[string]func(*Game, []byte){
-	"world.playerhandler.getstate": GetState,
-	"onworldplayerinfo":            PlayerInfo,
+	consts.HandlerWorldGetState: GetState,
+	consts.OnWorldPlayerInfo:    PlayerInfo,
 	//"onworldentitiesstate":         EntitiesState,
 }
 
@@ -30,8 +23,8 @@ func GetState(game *Game, data []byte) {
 	pos := msg.Player.Pos
 	w := game.World.(*World)
 	if w.Run {
-		w.CircleOne.X = pos.X
-		w.CircleOne.Y = pos.Z
+		w.CircleOne.X = pos.X * 100
+		w.CircleOne.Y = pos.Z * 100
 	}
 }
 
@@ -46,8 +39,8 @@ func PlayerInfo(game *Game, data []byte) {
 	pos := msg.Player.Pos
 	w := game.World.(*World)
 	if w.Run {
-		w.CircleOne.X = pos.X
-		w.CircleOne.Y = pos.Z
+		w.CircleOne.X = pos.X * 100
+		w.CircleOne.Y = pos.Z * 100
 	}
 
 }

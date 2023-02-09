@@ -11,6 +11,7 @@ import (
 	"golang.org/x/image/font"
 	"image/color"
 	"time"
+	"xiuxian/common/consts"
 	"xiuxian/protocol"
 )
 
@@ -42,20 +43,18 @@ func NewGame() *Game {
 	g.World.Init()
 	return g
 
-	//g.World = NewWorld(g)
-	//
+	g.World = NewWorld(g)
 
-	//
-	//if err := g.tryConnect("127.0.0.1:3250"); err != nil {
-	//	panic("servers not connect")
-	//}
-	//go ReadServerMessages(g)
-	//
-	//g.afterConnect()
-	//g.World.Init()
-	//Request(WorldGetState, &protocol.MsgWorldGetStateReq{})
-	////printFPS()
-	//return g
+	if err := g.tryConnect("127.0.0.1:3250"); err != nil {
+		panic("servers not connect")
+	}
+	go ReadServerMessages(g)
+
+	g.afterConnect()
+	g.World.Init()
+	Request(consts.HandlerWorldGetState, &protocol.MsgWorldGetStateReq{})
+	//printFPS()
+	return g
 }
 
 func printFPS() {
@@ -107,14 +106,14 @@ func (g *Game) tryConnect(addr string) error {
 
 func (g *Game) afterConnect() {
 	time.Sleep(1 * time.Second)
-	agent.request(GateLogin, &protocol.MsgGateLoginReq{
-		Account: "moz23",
+	agent.request(consts.HandlerGateLogin, &protocol.MsgGateLoginReq{
+		Account: "moz25",
 	})
 	time.Sleep(time.Millisecond * 100)
-	Request(PublicSelectRole, &protocol.MsgPublicSelectRoleReq{})
+	Request(consts.HandlerPublicSelectRole, &protocol.MsgPublicSelectRoleReq{})
 	time.Sleep(time.Millisecond * 100)
 	fmt.Println("Request PublicSelectRole done")
-	Request(GameStartGame, &protocol.MsgGameStartGameReq{})
+	Request(consts.HandlerGameStartGame, &protocol.MsgGameStartGameReq{})
 	time.Sleep(time.Millisecond * 400)
 	fmt.Println("Request GameStartGame done")
 }

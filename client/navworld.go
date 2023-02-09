@@ -127,7 +127,7 @@ func (w *NavWorld) Update() {
 		points = append(points, float64(w.ScaleFactor*vertices[triangles[k][2]].X+w.Px))
 		points = append(points, float64(w.ScaleFactor*vertices[triangles[k][2]].Y+w.Py))
 		//fmt.Println(points)
-		w.Solids = append(w.Solids, resolv.NewConvexPolygon(points...))
+		w.Solids = append(w.Solids, resolv.NewConvexPolygon(0, 0, points...))
 	}
 
 }
